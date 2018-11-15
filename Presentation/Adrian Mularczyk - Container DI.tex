@@ -1,0 +1,234 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{{\texttt{#1}}}
+%\colorbox{codegray}
+
+\title[]
+{Container Dependency Injection}
+
+\author[Adrian Mularczyk]{Adrian Mularczyk}
+
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage 
+\end{frame}
+
+\begin{frame}{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Description of the problem}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{Description of the problem}
+	\end{center}
+\end{frame}
+
+\section{Dependency injection}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{Dependency injection}
+	\end{center}
+\end{frame}
+
+\subsection*{Dependency injection}
+
+\begin{frame}{Dependency injection}
+     \begin{large}
+	\code{public class Foo}\\
+	\code{\{}\\ \quad
+		\code{public void DoSomeWork()}\\ \quad
+		\code{\{}\\ \qquad
+		\code{\textcolor{red}{Bar bar = new Bar();}}\\ \qquad
+		\code{bar.DoSomething();}\\ \quad
+		\code{\}}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Dependency injection}
+     \begin{large}
+	\code{public class Foo}\\
+	\code{\{}\\ \quad
+		\code{public void DoSomeWork(\textcolor{red}{Bar bar})}\\ \quad
+		\code{\{}\\ \qquad
+		\code{bar.DoSomething();}\\ \quad
+		\code{\}}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Dependency injection}
+     \begin{large}
+	\code{public class Foo}\\
+	\code{\{}\\ \quad
+		\code{Bar \_bar;}\\ \quad
+		\code{public Foo(\textcolor{red}{Bar bar})}\\ \quad
+		\code{\{}\\ \qquad
+		\code{\_bar = bar;}\\ \quad
+		\code{\}}\\ \quad
+		\code{public void DoSomeWork()}\\ \quad
+		\code{\{}\\ \qquad
+		\code{\_bar.DoSomething();}\\ \quad
+		\code{\}}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\subsection*{Dependency injection kinds}
+
+\begin{frame}{Dependency injection kinds}
+     \begin{Large}
+	\begin{itemize}
+		\item Injecting by the constructor
+		\item Injecting by the method
+		\item Injecting by the property
+	\end{itemize}
+     \end{Large}
+\end{frame}
+
+\begin{frame}{Dependency injection kinds}
+     \begin{Large}
+	\begin{itemize}
+		\item Injecting by the constructor
+		\item \textcolor{gray}{Injecting by the method}
+		\item \textcolor{gray}{Injecting by the property}
+	\end{itemize}
+     \end{Large}
+\end{frame}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{Container of\\ dependency injection}
+	\end{center}
+\end{frame}
+
+\section{Container of dependency injection}
+
+\subsection*{Basic operations}
+
+\begin{frame}{Basic operations}
+     \begin{Large}
+	\begin{itemize}
+		\item Register,
+		\item Resolve.
+	\end{itemize}
+     \end{Large}
+\end{frame}
+
+\subsection*{Registration types}
+
+\begin{frame}{Registration types}
+     \begin{Large}
+	\begin{itemize}
+		\item Register as Transient,
+		\item Register as Singleton,
+		\item Register as Scope (Thread, HttpRequest),
+		\item Register as FactoryMethod.
+	\end{itemize}
+     \end{Large}
+\end{frame}
+
+\subsection*{Container operations}
+
+\begin{frame}{Container}
+     \begin{large}
+	\code{public class Container}\\
+	\code{\{}\\ \quad
+		\code{private List<Type> RegisteredTypes;}\\ \quad
+		\code{}\\ \quad
+		\code{public Container()}\\ \quad
+		\code{\{}\\ \qquad
+		\code{RegisteredTypes = new List<Type>();}\\ \quad
+		\code{\}}\\  \quad
+		\code{}\\ \quad
+		\code{...}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Register}
+     \begin{large}
+	\code{public void Register(Type type)}\\
+	\code{\{}\\ \quad
+		\code{RegisteredTypes.Add(type);}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Resolve}
+     \begin{large}
+	\code{public object Resolve(Type type)}\\
+	\code{\{}\\ \quad
+		\code{if(!RegisteredTypes.Contains(type))}\\ \qquad
+		\code{throw new TypeNotRegisteredException();}\\ \quad
+		\code{}\\ \quad
+		\code{return CreateObjectOfType(type);}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{RegisteredTypes}
+     \begin{large}
+	\code{public class Container}\\
+	\code{\{}\\ \quad
+		\code{private List<\textcolor{red}{RegisteredType}> RegisteredTypes;}\\ \quad
+		\code{}\\ \quad
+		\code{public Container()}\\ \quad
+		\code{\{}\\ \qquad
+		\code{RegisteredTypes = new List<\textcolor{red}{RegisteredType}>();}\\ \quad
+		\code{\}}\\  \quad
+		\code{}\\ \quad
+		\code{...}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{RegisteredType}
+     \begin{large}
+	\code{public class RegisteredType}\\
+	\code{\{}\\ \quad
+		\code{public Type RegisteredType;}\\ \quad
+		\code{public RegistrationKind RegistrationKind;}\\ \quad
+		\code{public object Value;}\\ \quad
+		\code{public List<Scope, object> Scopes;}\\ \quad
+		\code{...}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\section{Summary}
+
+\begin{frame}{}
+	\begin{center}
+		\Huge{Summary}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Questions?}
+	\begin{center}
+		\Huge{Thank you!}
+	\end{center}
+\end{frame}
+
+
+\end{document}
