@@ -1,38 +1,51 @@
 \{document}
-Cześć. Nazywam się Adrian Mularczyk i dzisiaj opowiem wam jak wyglądają pod spodem kontenery wstrzykiwania zależności.
+Cześć. Nazywam się Adrian Mularczyk i dzisiaj opowiem wam trochę o kontenerach wstrzykiwania zależności.
 
 --
-Skąd w ogóle taki temat? Otóż zauważyłem, że obecnie prawie każdy używa kontenerów wstrzykiwania zależności, ale wciąż bardzo niewiele osób wie jak one działają i jak wyglądają pod spodem. Efektem tego jest to, że ludzie czasami boją się używać wstrzykiwania zależności, bo wydaje im się, że w tych kontenerach dzieje się jakaś magia.
+Skąd w ogóle taki temat? Otóż zauważyłem, że obecnie prawie każdy używa kontenerów wstrzykiwania zależności, ale wciąż bardzo niewiele osób wie jak one działają i te osoby czasami boją się ich używać.
 
 --
-Ale na początek czym w ogóle jest to wstrzykiwanie zależności?
-Założmy że mamy klasę 'Foo' i ma ona metodę 'DoSomeWork'. W tej metodzie potrzebuje obiektu klasy 'Bar', aby wykonać z niego metodę 'DoSomething'.
-Bez wstrzykiwania zależności musielibyśmy sami stworzyć obiekt klasy 'Bar' - albo w metodzie, albo w konstruktorze.
-Stosując wstrzykiwaniu zależności, obiekt klasy 'Bar' zostanie nam dostarczony z zewnątrz (np. w konstruktorze) i nie musimy sami zaprzątać sobie głowę stworzeniem takiego obiektu.
+Na początek czym w ogóle jest to wstrzykiwanie zależności? Pokaże to na przykładzie.
 
 --
-Jeśli wiemy czym jest wstrzykiwanie zależności, to co powinniśmy wiedzieć, aby zrozumieć jak dziają kontenery wstrzykiwania zależności.
-Wstrzykiwania zależności może odbywać się na kilka sposobów:
-- Wstrzykiwanie przez konstruktor,
-- Wstrzykiwanie przez metodę,
-- Wstrzykiwanie przez właściwość.
-Najczęściej stosowanym i przez wielu uważanym za jednym właściwym jest wstrzykiwanie przez konstruktor.
+Założmy że mamy klasę 'Foo' i ma ona metodę 'DoSomeWork'. W tej metodzie potrzebuje obiektu klasy 'Bar', aby wywołać z niego metodę 'DoSomething'.
+
+--
+Bez wstrzykiwania zależności musielibyśmy sami stworzyć obiekt klasy 'Bar' w tej metodzie.
+
+--
+Stosując wstrzykiwaniu zależności, obiekt klasy 'Bar' zostanie nam dostarczony z zewnątrz - np. metoda DoSomeWork może go przyjąć jako parametr.
+
+--
+Ale może się zdarzyć też tak, że nie chcemy, aby ta metoda przyjmowała obiekt klasy Bar jako parametr.
+Wtedy możemy przenieść ten parametr z metody do konstruktora.
+Teraz gdy ktoś będzie tworzył obiekt klasy Foo, będzie wiedział, że potrzebuje on do działania obiektu klasy Bar.
+I tym właście jest wstrzykiwanie zależności - nie tworzymy obiektów sami, tylko zostaje one do naszej klasy/metody wstrzyknięte.
+
+--
+Jeśli wiemy czym jest wstrzykiwanie zależności, to zastanówmmy się jakie są sposoby wsrzykiwania zależności.
+To wstrzykinięcie może odbywać się na kilka sposobów:
+- Wstrzykinięcie przez konstruktor,
+- Wstrzykinięcie przez metodę,
+- Wstrzykinięcie przez właściwość.
+
+--
+Najczęściej stosowanym i przez wielu uważanym za jednym właściwym jest wstrzykinięcie przez konstruktor.
 
 --
 Skoro wiemy czym jest wstrzykiwanie zależności, to jak taki konterner wstrzykiwania zależńości może nam pomóc?
 
 --
 Taki kontener dostarcza nam następujące operacje:
-- Register, czyli metoda dzięki której możemy zarejestrować jakiś typ w kontenerze,
-- Resolve, czyli metoda, która umożliwa nam zwrócenie obiektu jakiegoś typu - w dużym uproszczeniu typ i wszystkie typu od których jest on zależny muszą być wcześniej zarejestrowane.
+- Register, czyli metodę dzięki której możemy zarejestrować jakiś typ w kontenerze,
+- Resolve, czyli metodę która umożliwa nam zwrócenie obiektu jakiegoś typu - abyśmy mogli zwrócić jakiś typ, musi on zostać wcześniej zarejestrowany.
 
 --
 Typy, mogą być zarejestrowane z różną polityką czasu życia:
 - Transient, czyli zawsze otrzymamy nowy obiekt,
 - Singleton, czyli obiekt jest tworzony raz, a potem za każdym razem otrzymamy ten sam obiekt,
-- Scoped (Thread, HttpRequest), czyli dla danego zakresu otrzymamy ten sam obiekt, a dla dwóch różnych zakresów, są to różne obiekty. Takimi zakresami może być np. wątek, httpRequest albo coś, co sami uważamy za osobny zakres.
+- Scoped, czyli dla danego zakresu otrzymamy ten sam obiekt, a dla dwóch różnych zakresów, są to różne obiekty. Takimi zakresami może być np. wątek, httpRequest albo coś, co sami uważamy za osobny zakres.
 - FactoryMethod, czyli definiujemy funkcję, która ma na zwrócić obiekt oczekiwanego typu.
-
 
 --
 A jak to wygląda pod spodem?
@@ -46,10 +59,13 @@ Metoda Resolve sprawdza czy dany typ jest na liście i jeśli tak, to tworzy obi
 
 --
 Ok, ale wspomnieliśmy o tym, że mamy kilka rodzajów rejestracji, więc jak to się ma do tej naszej listy typów?
-Otóż taka Lista nie zawiera jedynie informacji o zarejestrowanym typie, ale zawiera obiekt, które poza typem przechowuje jeszcze kilka informacji.
-Jedną z nich jest rodzaj rejestracji.
-Kolejną rzeczą może być obiekt danego typu, który będzie miał wartość dla rejestracji typu Singleton.
-Kolejną rzeczą może być lista zawierająca parę - zakres i obiekt, tak, aby dla danego zakresu zwracać ten sam obiekt.
+Otóż taka Lista nie zawiera jedynie informacji o typie, ale zawiera obiekt, które poza typem przechowuje jeszcze kilka informacji.
+
+--
+Takimi dodatkowymi informacjami może być:
+- rodzaj rejestracji,
+- obiekt danego typu, który będzie miał wartość dla rejestracji typu Singleton,
+- może to być również lista zawierająca parę zawierająca zakres i obiekt, tak, aby dla danego zakresu zwracać ten sam obiekt, a dla dwóch różnych zakresów różny obiekt.
 
 --
 I o to cała filozofia. Trochę magii może się pojawić, przy operajcji 'Resolve', czyli tworzeniu obiektu, jednakże w dużej mierze sprowadza się to do użycia refleksji i cachowania niektórych rzeczy, aby tworzenie kolejnego obiektu tego samego typu było szybsze.

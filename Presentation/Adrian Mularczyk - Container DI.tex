@@ -58,6 +58,19 @@
 	\code{\{}\\ \quad
 		\code{public void DoSomeWork()}\\ \quad
 		\code{\{}\\ \qquad
+		\code{Bar bar = new Bar();}\\ \qquad
+		\code{bar.DoSomething();}\\ \quad
+		\code{\}}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Dependency injection}
+     \begin{large}
+	\code{public class Foo}\\
+	\code{\{}\\ \quad
+		\code{public void DoSomeWork()}\\ \quad
+		\code{\{}\\ \qquad
 		\code{\textcolor{red}{Bar bar = new Bar();}}\\ \qquad
 		\code{bar.DoSomething();}\\ \quad
 		\code{\}}\\
