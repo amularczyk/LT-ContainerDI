@@ -107,7 +107,19 @@
      \end{large}
 \end{frame}
 
+\begin{frame}{}
+	\begin{center}
+		\Large{Dependency injection}
+	\end{center}
+\end{frame}
+
 \subsection*{Dependency injection kinds}
+
+\begin{frame}{}
+	\begin{center}
+		\Large{Dependency injection kinds}
+	\end{center}
+\end{frame}
 
 \begin{frame}{Dependency injection kinds}
      \begin{Large}
@@ -153,10 +165,10 @@
 \begin{frame}{Registration types}
      \begin{Large}
 	\begin{itemize}
-		\item Register as Transient,
-		\item Register as Singleton,
-		\item Register as Scope (Thread, HttpRequest),
-		\item Register as FactoryMethod.
+		\item Transient,
+		\item Singleton,
+		\item Scope (Thread, HttpRequest),
+		\item Factory Method.
 	\end{itemize}
      \end{Large}
 \end{frame}
@@ -196,35 +208,6 @@
 		\code{throw new TypeNotRegisteredException();}\\ \quad
 		\code{}\\ \quad
 		\code{return CreateObjectOfType(type);}\\
-	\code{\}}
-     \end{large}
-\end{frame}
-
-\begin{frame}{RegisteredTypes}
-     \begin{large}
-	\code{public class Container}\\
-	\code{\{}\\ \quad
-		\code{private List<\textcolor{red}{RegisteredType}> RegisteredTypes;}\\ \quad
-		\code{}\\ \quad
-		\code{public Container()}\\ \quad
-		\code{\{}\\ \qquad
-		\code{RegisteredTypes = new List<\textcolor{red}{RegisteredType}>();}\\ \quad
-		\code{\}}\\  \quad
-		\code{}\\ \quad
-		\code{...}\\
-	\code{\}}
-     \end{large}
-\end{frame}
-
-\begin{frame}{RegisteredType}
-     \begin{large}
-	\code{public class RegisteredType}\\
-	\code{\{}\\ \quad
-		\code{public Type RegisteredType;}\\ \quad
-		\code{public RegistrationKind RegistrationKind;}\\ \quad
-		\code{public object Value;}\\ \quad
-		\code{public List<Scope, object> Scopes;}\\ \quad
-		\code{...}\\
 	\code{\}}
      \end{large}
 \end{frame}

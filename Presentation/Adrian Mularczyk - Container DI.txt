@@ -8,7 +8,7 @@ Skąd w ogóle taki temat? Otóż zauważyłem, że obecnie prawie każdy używa
 Na początek czym w ogóle jest to wstrzykiwanie zależności? Pokaże to na przykładzie.
 
 --
-Założmy że mamy klasę 'Foo' i ma ona metodę 'DoSomeWork'. W tej metodzie potrzebuje obiektu klasy 'Bar', aby wywołać z niego metodę 'DoSomething'.
+Założmy że mamy klasę 'Foo' i ma ona metodę 'DoSomeWork'. W tej metodzie potrzebuje obiektu klasy 'Bar', aby wywołać z niej metodę 'DoSomething'.
 
 --
 Bez wstrzykiwania zależności musielibyśmy sami stworzyć obiekt klasy 'Bar' w tej metodzie.
@@ -17,28 +17,32 @@ Bez wstrzykiwania zależności musielibyśmy sami stworzyć obiekt klasy 'Bar' w
 Stosując wstrzykiwaniu zależności, obiekt klasy 'Bar' zostanie nam dostarczony z zewnątrz - np. metoda DoSomeWork może go przyjąć jako parametr.
 
 --
-Ale może się zdarzyć też tak, że nie chcemy, aby ta metoda przyjmowała obiekt klasy Bar jako parametr.
+Może się zdarzyć też tak, że nie chcemy, aby ta metoda przyjmowała obiekt klasy Bar jako parametr.
 Wtedy możemy przenieść ten parametr z metody do konstruktora.
 Teraz gdy ktoś będzie tworzył obiekt klasy Foo, będzie wiedział, że potrzebuje on do działania obiektu klasy Bar.
+
+--
 I tym właście jest wstrzykiwanie zależności - nie tworzymy obiektów sami, tylko zostaje one do naszej klasy/metody wstrzyknięte.
 
 --
 Jeśli wiemy czym jest wstrzykiwanie zależności, to zastanówmmy się jakie są sposoby wsrzykiwania zależności.
-To wstrzykinięcie może odbywać się na kilka sposobów:
+
+--
+Wstrzykinięcie może odbywać się na kilka sposobów:
 - Wstrzykinięcie przez konstruktor,
 - Wstrzykinięcie przez metodę,
 - Wstrzykinięcie przez właściwość.
 
 --
-Najczęściej stosowanym i przez wielu uważanym za jednym właściwym jest wstrzykinięcie przez konstruktor.
+Najczęściej stosowanym i przez wielu uważanym za jedynym właściwym jest wstrzykinięcie przez konstruktor.
 
 --
-Skoro wiemy czym jest wstrzykiwanie zależności, to jak taki konterner wstrzykiwania zależńości może nam pomóc?
+Skoro wiemy czym jest wstrzykiwanie zależności, to czym jest ten konterner wstrzykiwania zależńości?
 
 --
-Taki kontener dostarcza nam następujące operacje:
+Jest to obiekt, który dostarcza nam następujące operacje:
 - Register, czyli metodę dzięki której możemy zarejestrować jakiś typ w kontenerze,
-- Resolve, czyli metodę która umożliwa nam zwrócenie obiektu jakiegoś typu - abyśmy mogli zwrócić jakiś typ, musi on zostać wcześniej zarejestrowany.
+- Resolve, czyli metodę która umożliwa nam zwrócenie obiektu jakiegoś typu - w dużym uproszczeniu - abyśmy mogli zwrócić obiekt jakiegoś typu, musimy najpierw ten typ zarejestrować.
 
 --
 Typy, mogą być zarejestrowane z różną polityką czasu życia:
@@ -48,8 +52,8 @@ Typy, mogą być zarejestrowane z różną polityką czasu życia:
 - FactoryMethod, czyli definiujemy funkcję, która ma na zwrócić obiekt oczekiwanego typu.
 
 --
-A jak to wygląda pod spodem?
-Pod spodem mamy Listę, w której taki kontener zapisuje sobie zarejestrowane typy.
+A jak taki kontener wygląda pod spodem?
+Pod spodem mamy Listę, w której kontener zapisuje sobie zarejestrowane typy.
 
 --
 Metoda Register dodaje kolejny typ do tej listy.
@@ -58,17 +62,7 @@ Metoda Register dodaje kolejny typ do tej listy.
 Metoda Resolve sprawdza czy dany typ jest na liście i jeśli tak, to tworzy obiekt danego typu i go zwraca.
 
 --
-Ok, ale wspomnieliśmy o tym, że mamy kilka rodzajów rejestracji, więc jak to się ma do tej naszej listy typów?
-Otóż taka Lista nie zawiera jedynie informacji o typie, ale zawiera obiekt, które poza typem przechowuje jeszcze kilka informacji.
+I to by było na tyle z mojego krótkiego wystąpienia na temat kontenerów wstrzykiwania zależności. Mam nadzieję, że dzięki tej prezentacji dowiedzieliścię się trochę więcej o tym jak takie kontenery działają. Jeśli ktoś byłby zainteresowany zaawansowanymi zagadnieniami z tego tematu, to proszę dać znać, a postaram się przygotować kolejną prezentację.
 
 --
-Takimi dodatkowymi informacjami może być:
-- rodzaj rejestracji,
-- obiekt danego typu, który będzie miał wartość dla rejestracji typu Singleton,
-- może to być również lista zawierająca parę zawierająca zakres i obiekt, tak, aby dla danego zakresu zwracać ten sam obiekt, a dla dwóch różnych zakresów różny obiekt.
-
---
-I o to cała filozofia. Trochę magii może się pojawić, przy operajcji 'Resolve', czyli tworzeniu obiektu, jednakże w dużej mierze sprowadza się to do użycia refleksji i cachowania niektórych rzeczy, aby tworzenie kolejnego obiektu tego samego typu było szybsze.
-
---
-I to by było na tyle. Czy są jakieś pytania?
+Czy są jakieś pytania?
