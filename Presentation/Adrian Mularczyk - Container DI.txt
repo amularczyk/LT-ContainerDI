@@ -8,10 +8,10 @@ Skąd w ogóle taki temat? Otóż zauważyłem, że obecnie prawie każdy używa
 Na początek czym w ogóle jest to wstrzykiwanie zależności? Pokaże to na przykładzie.
 
 --
-Założmy że mamy klasę 'Foo' i ma ona metodę 'DoSomeWork'. W tej metodzie potrzebuje obiektu klasy 'Bar', aby wywołać z niej metodę 'DoSomething'.
+Założmy że mamy klasę 'Foo' i ma ona metodę 'DoSomeWork'. W tej metodzie potrzebujemy obiektu klasy 'Bar', aby wywołać z niego metodę 'DoSomething'.
 
 --
-Bez wstrzykiwania zależności musielibyśmy sami stworzyć obiekt klasy 'Bar' w tej metodzie.
+Bez wstrzykiwania zależności musielimy sami stworzyć obiekt klasy 'Bar' w tej metodzie.
 
 --
 Stosując wstrzykiwaniu zależności, obiekt klasy 'Bar' zostanie nam dostarczony z zewnątrz - np. metoda DoSomeWork może go przyjąć jako parametr.
@@ -25,7 +25,7 @@ Teraz gdy ktoś będzie tworzył obiekt klasy Foo, będzie wiedział, że potrze
 I tym właście jest wstrzykiwanie zależności - nie tworzymy obiektów sami, tylko zostaje one do naszej klasy/metody wstrzyknięte.
 
 --
-Jeśli wiemy czym jest wstrzykiwanie zależności, to zastanówmmy się jakie są sposoby wsrzykiwania zależności.
+Jeśli wiemy czym jest wstrzykiwanie zależności, to zastanówmmy się jakie są sposoby wstrzykiwania zależności.
 
 --
 Wstrzykinięcie może odbywać się na kilka sposobów:
@@ -62,7 +62,27 @@ Metoda Register dodaje kolejny typ do tej listy.
 Metoda Resolve sprawdza czy dany typ jest na liście i jeśli tak, to tworzy obiekt danego typu i go zwraca.
 
 --
-I to by było na tyle z mojego krótkiego wystąpienia na temat kontenerów wstrzykiwania zależności. Mam nadzieję, że dzięki tej prezentacji dowiedzieliścię się trochę więcej o tym jak takie kontenery działają. Jeśli ktoś byłby zainteresowany zaawansowanymi zagadnieniami z tego tematu, to proszę dać znać, a postaram się przygotować kolejną prezentację.
+Ok, ale wspomnieliśmy o tym, że mamy kilka rodzajów rejestracji, więc jak to się ma do tej naszej listy typów?
+Otóż taka Lista nie zawiera jedynie informacji o typie, ale zawiera obiekt, które poza typem przechowuje jeszcze kilka informacji.
+
+--
+Takimi informacjami mogą być:
+- typ wejściowy,
+- typ wyjściowy,
+- rodzaj rejestracji,
+- obiekt danego typu, który będzie miał wartość dla rejestracji typu Singleton,
+- może to być również lista zawierająca parę zakres i obiekt, tak, aby dla danego zakresu zwracać ten sam obiekt, a dla dwóch różnych zakresów różny obiekt.
+
+--
+W związku z tym metoda Register tak na prawdę wygląda trochę inaczej, bo jako parametr przyjmuje typ wejściowy oraz typ wyjściowy, i jest to dodawane do listy typów.
+
+--
+A tak na prawdę, to to nie jest Register, tylko Register z określoną polityką czasu życia, czyli np. RegisterTransient i w naszym obiekcie RegisteredType zapisujemy jeszcze rodzaj rejestracji.
+
+Metoda Resolve nie ulega zmianie.
+
+--
+I to by było na tyle z mojego krótkiego wystąpienia na temat kontenerów wstrzykiwania zależności. Mam nadzieję, że dzięki tej prezentacji dowiedzieliścię się trochę więcej o tym jak takie kontenery działają i chętniej będziecie ich używać.
 
 --
 Czy są jakieś pytania?

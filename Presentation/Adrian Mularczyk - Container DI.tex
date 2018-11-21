@@ -54,55 +54,56 @@
 
 \begin{frame}{Dependency injection}
      \begin{large}
-	\code{public class Foo}\\
-	\code{\{}\\ \quad
-		\code{public void DoSomeWork()}\\ \quad
-		\code{\{}\\ \qquad
+	\code{public class Foo \{}\\ \quad
+	\code{}\\ \quad
+		\code{public void DoSomeWork() \{}\\ \qquad
 		\code{Bar bar = new Bar();}\\ \qquad
 		\code{bar.DoSomething();}\\ \quad
 		\code{\}}\\
+	\code{}\\
 	\code{\}}
      \end{large}
 \end{frame}
 
 \begin{frame}{Dependency injection}
      \begin{large}
-	\code{public class Foo}\\
-	\code{\{}\\ \quad
-		\code{public void DoSomeWork()}\\ \quad
-		\code{\{}\\ \qquad
+	\code{public class Foo \{}\\\ \quad
+	\code{}\\ \quad
+		\code{public void DoSomeWork() \{}\\ \qquad
 		\code{\textcolor{red}{Bar bar = new Bar();}}\\ \qquad
 		\code{bar.DoSomething();}\\ \quad
 		\code{\}}\\
+	\code{}\\
 	\code{\}}
      \end{large}
 \end{frame}
 
 \begin{frame}{Dependency injection}
      \begin{large}
-	\code{public class Foo}\\
-	\code{\{}\\ \quad
-		\code{public void DoSomeWork(\textcolor{red}{Bar bar})}\\ \quad
-		\code{\{}\\ \qquad
+	\code{public class Foo \{}\\ \quad
+	\code{}\\ \quad
+		\code{public void DoSomeWork(\textcolor{red}{Bar bar})\{}\\ \qquad
 		\code{bar.DoSomething();}\\ \quad
 		\code{\}}\\
+	\code{}\\
 	\code{\}}
      \end{large}
 \end{frame}
 
 \begin{frame}{Dependency injection}
      \begin{large}
-	\code{public class Foo}\\
-	\code{\{}\\ \quad
+	\code{public class Foo \{}\\
+	\code{}\\ \quad
 		\code{Bar \_bar;}\\ \quad
-		\code{public Foo(\textcolor{red}{Bar bar})}\\ \quad
-		\code{\{}\\ \qquad
+	\code{}\\ \quad
+		\code{public Foo(\textcolor{red}{Bar bar})\{}\\ \qquad
 		\code{\_bar = bar;}\\ \quad
 		\code{\}}\\ \quad
-		\code{public void DoSomeWork()}\\ \quad
-		\code{\{}\\ \qquad
+	\code{}\\ \quad
+		\code{public void DoSomeWork() \{}\\ \qquad
 		\code{\_bar.DoSomething();}\\ \quad
 		\code{\}}\\
+	\code{}\\
 	\code{\}}
      \end{large}
 \end{frame}
@@ -177,14 +178,13 @@
 
 \begin{frame}{Container}
      \begin{large}
-	\code{public class Container}\\
-	\code{\{}\\ \quad
+	\code{public class Container \{}\\
+	\code{}\\ \quad
 		\code{private List<Type> RegisteredTypes;}\\ \quad
 		\code{}\\ \quad
-		\code{public Container()}\\ \quad
-		\code{\{}\\ \qquad
+		\code{public Container() \{}\\ \qquad
 		\code{RegisteredTypes = new List<Type>();}\\ \quad
-		\code{\}}\\  \quad
+		\code{\}}\\ \quad
 		\code{}\\ \quad
 		\code{...}\\
 	\code{\}}
@@ -193,8 +193,7 @@
 
 \begin{frame}{Register}
      \begin{large}
-	\code{public void Register(Type type)}\\
-	\code{\{}\\ \quad
+	\code{public void Register(Type type) \{}\\ \quad
 		\code{RegisteredTypes.Add(type);}\\
 	\code{\}}
      \end{large}
@@ -202,12 +201,71 @@
 
 \begin{frame}{Resolve}
      \begin{large}
-	\code{public object Resolve(Type type)}\\
-	\code{\{}\\ \quad
-		\code{if(!RegisteredTypes.Contains(type))}\\ \qquad
+	\code{public object Resolve(Type type) \{}\\ \quad
+		\code{if(!RegisteredTypes.Contains(type)) \{}\\ \qquad
 		\code{throw new TypeNotRegisteredException();}\\ \quad
+		\code{\}}\\ \quad
 		\code{}\\ \quad
 		\code{return CreateObjectOfType(type);}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{RegisteredTypes}
+     \begin{large}
+	\code{public class Container \{}\\
+	\code{}\\ \quad
+		\code{private List<\textcolor{red}{RegisteredType}> RegisteredTypes;}\\ \quad
+		\code{}\\ \quad
+		\code{public Container() \{}\\ \qquad
+		\code{RegisteredTypes = new List<\textcolor{red}{RegisteredType}>();}\\ \quad
+		\code{\}}\\  \quad
+		\code{}\\ \quad
+		\code{...}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{RegisteredType}
+     \begin{large}
+	\code{public class RegisteredType \{}\\  \quad
+		\code{public Type InputType;}\\ \quad
+		\code{public Type OutputType;}\\ \quad
+		\code{public RegistrationKind RegistrationKind;}\\ \quad
+		\code{public object Value;}\\ \quad
+		\code{public List<Scope, object> Scopes;}\\ \quad
+		\code{...}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Register}
+     \begin{large}
+	\code{public void Register(}\\ \quad
+	\code{\textcolor{red}{Type inputType, Type outputType}) \{}\\ \quad
+		\code{}\\ \quad
+		\code{RegisteredTypes.Add(}\\ \qquad
+		\code{\textcolor{red}{new RegisteredType \{}}\\ \qquad \quad
+ 		\code{\textcolor{red}{InputType = inputType,}}\\ \qquad \quad
+		\code{\textcolor{red}{OutputType = outputType}}\\ \qquad
+		\code{\textcolor{red}{\}}}\\ \quad
+		\code{);}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
+\begin{frame}{Register}
+     \begin{large}
+	\code{public void \textcolor{red}{RegisterTransient}(}\\ \quad
+	\code{Type inputType, Type outputType) \{}\\ \quad
+		\code{}\\ \quad
+		\code{RegisteredTypes.Add(}\\ \qquad
+		\code{new RegisteredType \{}\\ \qquad \quad
+ 		\code{InputType = inputType,}\\ \qquad \quad
+		\code{OutputType = outputType,}\\ \qquad \quad
+		\code{\textcolor{red}{RegistrationKind = RegistrationKind.Transient}}\\ \qquad
+		\code{\}}\\ \quad
+		\code{);}\\
 	\code{\}}
      \end{large}
 \end{frame}
