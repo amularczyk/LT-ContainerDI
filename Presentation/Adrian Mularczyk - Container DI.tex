@@ -270,6 +270,18 @@
      \end{large}
 \end{frame}
 
+\begin{frame}{Resolve}
+     \begin{large}
+	\code{public object Resolve(Type type) \{}\\ \quad
+		\code{if(!RegisteredTypes.Contains(type)) \{}\\ \qquad
+		\code{throw new TypeNotRegisteredException();}\\ \quad
+		\code{\}}\\ \quad
+		\code{}\\ \quad
+		\code{return \textcolor{blue}{CreateObjectOfType(type);}}\\
+	\code{\}}
+     \end{large}
+\end{frame}
+
 \section{Summary}
 
 \begin{frame}{}

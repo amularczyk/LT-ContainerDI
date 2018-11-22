@@ -74,12 +74,13 @@ Takimi informacjami mogą być:
 - może to być również lista zawierająca parę zakres i obiekt, tak, aby dla danego zakresu zwracać ten sam obiekt, a dla dwóch różnych zakresów różny obiekt.
 
 --
-W związku z tym metoda Register tak na prawdę wygląda trochę inaczej, bo jako parametr przyjmuje typ wejściowy oraz typ wyjściowy, i jest to dodawane do listy typów.
+W związku z tym metoda Register tak na prawdę wygląda trochę inaczej, bo jako parametr przyjmuje typ wejściowy oraz typ wyjściowy, i te informację są dodawane do listy typów.
 
 --
-A tak na prawdę, to to nie jest Register, tylko Register z określoną polityką czasu życia, czyli np. RegisterTransient i w naszym obiekcie RegisteredType zapisujemy jeszcze rodzaj rejestracji.
+A tak na prawdę, to nie to jest metoda Register, tylko Register z określoną polityką czasu życia, czyli np. RegisterTransient i w naszym obiekcie RegisteredType zapisujemy jeszcze rodzaj rejestracji.
 
-Metoda Resolve nie ulega zmianie.
+--
+Metoda Resolve nie ulega zmianie. Jedyne czego nie omówiliśmy to jak może wyglądać metoda CreateObjectOfType, ale to mógłby być temat na osobną prezentację.
 
 --
 I to by było na tyle z mojego krótkiego wystąpienia na temat kontenerów wstrzykiwania zależności. Mam nadzieję, że dzięki tej prezentacji dowiedzieliścię się trochę więcej o tym jak takie kontenery działają i chętniej będziecie ich używać.
