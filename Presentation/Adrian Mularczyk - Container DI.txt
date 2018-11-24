@@ -37,12 +37,12 @@ Wstrzykinięcie może odbywać się na kilka sposobów:
 Najczęściej stosowanym i przez wielu uważanym za jedynym właściwym jest wstrzykinięcie przez konstruktor.
 
 --
-Skoro wiemy czym jest wstrzykiwanie zależności, to czym jest ten konterner wstrzykiwania zależńości?
+Skoro wiemy czym jest wstrzykiwanie zależności, to czym jest ten konterner wstrzykiwania zależności?
 
 --
 Jest to obiekt, który dostarcza nam następujące operacje:
 - Register, czyli metodę dzięki której możemy zarejestrować jakiś typ w kontenerze,
-- Resolve, czyli metodę która umożliwa nam zwrócenie obiektu jakiegoś typu - w dużym uproszczeniu - abyśmy mogli zwrócić obiekt jakiegoś typu, musimy najpierw ten typ zarejestrować.
+- Resolve, czyli metodę która umożliwa nam zwrócenie obiektu jakiegoś typu.
 
 --
 Typy, mogą być zarejestrowane z różną polityką czasu życia:
@@ -84,6 +84,9 @@ Metoda Resolve nie ulega zmianie. Jedyne czego nie omówiliśmy to jak może wyg
 
 --
 I to by było na tyle z mojego krótkiego wystąpienia na temat kontenerów wstrzykiwania zależności. Mam nadzieję, że dzięki tej prezentacji dowiedzieliścię się trochę więcej o tym jak takie kontenery działają i chętniej będziecie ich używać.
+
+--
+Dziękuję
 
 --
 Czy są jakieś pytania?
